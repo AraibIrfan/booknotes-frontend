@@ -13,7 +13,7 @@ function App() {
   useEffect(()=>{
    async function fetchBook(){
       try {
-        const response = await axios.get("http://localhost:3001/")
+        const response = await axios.get("https://booknotes-backend-1.onrender.com/")
         setBookData(response.data)
         // console.log(response.data)
       } catch (error) {
@@ -23,7 +23,7 @@ function App() {
 
    async function sortBooksbyAuthor(){
     try {
-      const response = await axios.get('http://localhost:3001/api-sortbyauthor')
+      const response = await axios.get('https://booknotes-backend-1.onrender.com/api-sortbyauthor')
       setsortByAuthorData(response.data)
       
     } catch (error) {
@@ -32,7 +32,7 @@ function App() {
    }
    async function sortBooksbyTitle(){
     try {
-      const response = await axios.get('http://localhost:3001/api-sortbytitle')
+      const response = await axios.get('https://booknotes-backend-1.onrender.com/api-sortbytitle')
       setSortByTitleData(response.data)
 
       
