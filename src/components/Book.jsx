@@ -3,7 +3,7 @@ import React from "react";
 function Book({ data }) {
   return (
     <div className="container fs-6">
-      <ul>
+      <ul className="responsiveness">
         {data.map((book, index) => {
           return (
             <>

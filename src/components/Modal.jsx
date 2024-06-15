@@ -23,7 +23,7 @@ function Modal(props) {
             }}
           >
             <div>
-              <button style={{ border: "none", float: "right" }}>
+              <button className="button" style={{ border: "none", float: "right" }}>
                 <X onClick={props.onClose} />
               </button>
             </div>

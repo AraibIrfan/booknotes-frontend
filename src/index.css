@@ -56,3 +56,20 @@ label{
   font-style: italic;
 }
 
+@media screen and (max-width: 450px) {
+  .responsiveness{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap:20px;
+    padding: 20px;
+  }
+
+
+}
+
+@media screen and (min-width:600px) {
+  .button{
+    display: flex;
+    justify-content: center;
+  }
+}
