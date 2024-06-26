@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import {  useNavigate } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { X } from "lucide-react";
+import axios from "axios";
+// import TextField from "@mui/material/TextField";
+import Button from "react-bootstrap/esm/Button";
 
-function Modal(props) {
+function Modal({fetchBook ,onClose}) {
+  const navigate = useNavigate()
+  const [data, setData] = useState({
+    authorName: "",
+    bookName: "",
+    description: "",
+    rating: ""
+  })
+  async function submitHandler(event) {
+    event.preventDefault()
+    console.log(data)
+    try {
+      await axios.post("http://localhost:3001/bookdata", {
+        data
+      })
+      await fetchBook()
+      onClose()
+      navigate('/')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
   return (
     <>
       <div className="backdrop">
@@ -23,8 +51,11 @@ function Modal(props) {
             }}
           >
             <div>
-              <button className="button" style={{ border: "none", float: "right" }}>
-                <X onClick={props.onClose} />
+              <button
+                className="button"
+                style={{ border: "none", float: "right" }}
+              >
+                <X onClick={onClose} />
               </button>
             </div>
             <div>
@@ -33,28 +64,27 @@ function Modal(props) {
               </p>
             </div>
 
-            <div style={{display:'flex',justifyContent:'center',marginTop:'20px'}}>
-            <div style={{display:'flex',gap:'10px',flexDirection:'column',width:'80%'}}>
-              <span>
-                {/* <label>Author Name: </label> */}
-                <input placeholder="Enter author's name" required />
-              </span>
-              <br />
-              <span>
-                {/* <label>Book Name: </label> */}
-                <input placeholder="Enter book's name" required />
-              </span>
-              <br />
-              <span>
-                {/* <label>Description: </label> */}
-               <textarea placeholder="Enter book's description"></textarea>
-              </span>
-              <br />
-              <span>
-                {/* <label>Rating: </label> */}
-                <input placeholder="Enter book's rating out of 10" required />
-              </span>
-            </div>
+            <div className="container text-center">
+              <form onSubmit={submitHandler} method="POST">
+                <input name="Author Name" placeholder="Author name" required onChange={(e) => setData({
+                  ...data,
+                  authorName: e.target.value
+                })} />
+                <input name="Book name" placeholder="Book name" required onChange={(e) => setData({
+                  ...data,
+                  bookName: e.target.value
+                })} />
+                <input name="Rate" placeholder="Rate it out of 10" required onChange={(e) => setData({
+                  ...data,
+                  rating: e.target.value
+                })} />
+                <textarea name="description" placeholder="Short description of book" rows={5} required onChange={(e) => setData({
+                  ...data,
+                  description: e.target.value
+                })} />
+                <br />
+               <Button type="submit">Submit</Button>
+              </form>
             </div>
           </div>
         </div>
