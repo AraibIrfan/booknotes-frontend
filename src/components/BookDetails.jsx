@@ -1,36 +1,73 @@
-import React, { useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import Button from "react-bootstrap/Button";
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 
 function BookDetails() {
-  const [notes,setNotes] = useState([])
- 
+  
+  const {book_id} = useParams();
+  const [noteData,setNoteData] = useState([])
+   const [notes, setNotes] = useState({
+    note:""
+   })
+   
+   async function getNotes(){
+    try {
+      const response = await axios.get(`http://localhost:3001/notes/${book_id}`)
+      setNoteData(response.data)
+    } catch (error) {
+      console.error(error)  
+    }
+    
+   }
 
- async function submitHandler(event){
+
+useEffect(()=>{
+ getNotes()
+ 
+})
+
+  async function submitHandler(event) {
     event.preventDefault()
     try {
-       await axios.post('http://localhost:3001/notes',{notes})
+      await axios.post(`http://localhost:3001/notes/${book_id}`, {  notes })
+      setNotes({note:""}) 
+      await getNotes()
+
     } catch (error) {
       console.error(error)
     }
-    console.log(notes)
+  
   }
   return (
     <>
-    
-        <div  className='container d-flex flex-column  '>
-        <div style={{textAlign:'center'}} className='mb-3'>
-          <h3 style={{fontWeight:'100', fontStyle:'italic', marginBottom:'2rem'}}>Want to add some notes you found interesting in this book? </h3>
-          <form onSubmit={submitHandler} method='POST'>
-          <textarea placeholder=' Type here..' rows={5} required onChange={(e)=>{
-            setNotes(e.target.value)
-          }}/>
-          <Button type='submit'>Submit</Button>
-          </form>
+
+      <div className='container d-flex flex-column  '>
+        <div style={{ textAlign: 'center' }} className='mb-3'>
+          <h3 style={{ fontWeight: '100', fontStyle: 'italic', marginBottom: '2rem' }}>Want to add some notes you found interesting in this book? </h3>
+          <div className='container text-center'>
+            <form onSubmit={submitHandler} method='POST'>
+              <textarea placeholder=' Type here..' rows={5} required onChange={(e) => {
+                setNotes({
+                  ...notes,
+                  note:e.target.value})
+              }} />
+              <br />
+              <Button  type='submit'>Submit</Button>
+            </form>
           </div>
         </div>
-   
+        <ul className='container notes grid'>
+          {noteData.map((note,index)=>{
+            return <>
+            <li key={index}>{note.note}</li>
+            </>
+          })}
+        </ul>
+      </div>
+      
+    
     </>
   )
 }

@@ -22,6 +22,10 @@ function App() {
   //   setData((existingData)=>[data,...existingData])
 
   // }
+
+
+
+
   async function fetchBook() {
     try {
       const response = await axios.get("https://booknotes-backend-1.onrender.com/")
@@ -90,7 +94,7 @@ function App() {
         <Route path="/" element={<Book data={bookData} isNotesVisible={setShowOnlyNotes} />} />
         <Route path="/sortbyauthor" element={<Book data={sortByAuthorData} />} />
         <Route path="/sortbytitle" element={<Book data={sortByTitleData} />} />
-        <Route path="/bookdetails" element={<BookDetails />} />
+        <Route path="/bookdetails/:book_id/notes" element={<BookDetails />} />
       </Routes>
 
 
