@@ -14,7 +14,7 @@ function BookDetails() {
    
    async function getNotes(){
     try {
-      const response = await axios.get(`http://localhost:3001/notes/${book_id}`)
+      const response = await axios.get(`https://booknotes-backend-1.onrender.com/notes/${book_id}`)
       setNoteData(response.data)
     } catch (error) {
       console.error(error)  
@@ -31,7 +31,7 @@ useEffect(()=>{
   async function submitHandler(event) {
     event.preventDefault()
     try {
-      await axios.post(`http://localhost:3001/notes/${book_id}`, {  notes })
+      await axios.post(`https://booknotes-backend-1.onrender.com/notes/${book_id}`, {  notes })
       setNotes({note:""}) 
       await getNotes()
 
